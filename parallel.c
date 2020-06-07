@@ -35,6 +35,9 @@ typedef unsigned long  ulong;
 #define UNDERLINE "\033[4m"
 #define INVERSE   "\033[7m"
 
+// A SINGLE PARALLEL PORT PIN
+//    It's port and mask, in|out, inverted, label, screen position..
+//
 typedef struct {
     int x,y;	 	// x/y position on screen
     int port;		// port offset. actual_port = (portbase+port)
@@ -42,7 +45,7 @@ typedef struct {
     int inv;		// 1=actual hardware output is inverted
     int dir;		// IN, OUT or GND
     const char *label; 	// label for this pin
-    uchar laststate;	// last state of port (optimizes redraws)
+    uchar laststate;	// last state of port (to optimize redraws)
 } Pin;
 
 // GLOBALS
@@ -74,8 +77,8 @@ uchar PeekByte(ushort segment, ushort offset)
 // INITIALIZE G_pins[] ARRAY
 void Init(void)
 {
-    //                 X   Y     PORT MASK  INV DIR  LABEL
-    //                 -   -     ---- ----  --- ---  ---------
+    //                   X   Y     PORT MASK  INV DIR  LABEL
+    //                   -   -     ---- ----  --- ---  ---------
     G_pins[ 1] = MakePin(5,  2+5,  2,   0x01, 1,  OUT, "-strobe");
     G_pins[ 2] = MakePin(5,  2+6,  0,   0x01, 0,  OUT, "+data0");
     G_pins[ 3] = MakePin(5,  2+7,  0,   0x02, 0,  OUT, "+data1");
