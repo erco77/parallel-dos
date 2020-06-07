@@ -12,7 +12,7 @@
 //
 // (C) Copyright Greg Ercolano 1988, 2007.
 // (C) Copyright Seriss Corporation 2008, 2020.
-// Available under GPL2. http://github.com/erco77/parallel-dos\n"
+// Available under GPL3. http://github.com/erco77/parallel-dos\n"
 //
 // 80 //////////////////////////////////////////////////////////////////////////
 //
@@ -46,20 +46,20 @@ typedef struct {
 } Pin;
 
 // GLOBALS
-Pin *pins[26];
+Pin *G_pins[26];
 
 // CREATE AN INSTANCE OF A 'Pin' STRUCT
 Pin* MakePin(int x, int y, int port, 
              int mask, int inv, int dir,
 	     const char *label) {
     Pin *p = (Pin*)malloc(sizeof(Pin));
-    p->x     = x;
-    p->y     = y;
-    p->port  = port;
-    p->mask  = mask;
-    p->inv   = inv;
-    p->dir   = dir;
-    p->label = label;
+    p->x         = x;
+    p->y         = y;
+    p->port      = port;
+    p->mask      = mask;
+    p->inv       = inv;
+    p->dir       = dir;
+    p->label     = label;
     p->laststate = -1;
     return p;
 }
@@ -71,35 +71,36 @@ uchar PeekByte(ushort segment, ushort offset)
     return *addr;
 }
 
+// INITIALIZE G_pins[] ARRAY
 void Init(void)
 {
     //                 X   Y     PORT MASK  INV DIR  LABEL
     //                 -   -     ---- ----  --- ---  ---------
-    pins[ 1] = MakePin(5,  2+5,  2,   0x01, 1,  OUT, "-strobe");
-    pins[ 2] = MakePin(5,  2+6,  0,   0x01, 0,  OUT, "+data0");
-    pins[ 3] = MakePin(5,  2+7,  0,   0x02, 0,  OUT, "+data1");
-    pins[ 4] = MakePin(5,  2+8,  0,   0x04, 0,  OUT, "+data2");
-    pins[ 5] = MakePin(5,  2+9,  0,   0x08, 0,  OUT, "+data3");
-    pins[ 6] = MakePin(5,  2+10, 0,   0x10, 0,  OUT, "+data4");
-    pins[ 7] = MakePin(5,  2+11, 0,   0x20, 0,  OUT, "+data5");
-    pins[ 8] = MakePin(5,  2+12, 0,   0x40, 0,  OUT, "+data6");
-    pins[ 9] = MakePin(5,  2+13, 0,   0x80, 0,  OUT, "+data7");
-    pins[10] = MakePin(5,  2+14, 1,   0x40, 1,  IN,  "-ack");
-    pins[11] = MakePin(5,  2+15, 1,   0x80, 1,  IN,  "+busy");
-    pins[12] = MakePin(5,  2+16, 1,   0x20, 0,  IN,  "+outpap");
-    pins[13] = MakePin(5,  2+17, 1,   0x10, 0,  IN,  "+sel");
-    pins[14] = MakePin(45, 2+5,  2,   0x02, 1,  OUT, "-autofeed");
-    pins[15] = MakePin(45, 2+6,  1,   0x08, 0,  IN,  "-error");
-    pins[16] = MakePin(45, 2+7,  2,   0x04, 0,  OUT, "-init");
-    pins[17] = MakePin(45, 2+8,  2,   0x08, 1,  OUT, "-sel");
-    pins[18] = MakePin(45, 2+9,  0,   0x00, 0,  GND, "gnd");
-    pins[19] = MakePin(45, 2+10, 0,   0x00, 0,  GND, "gnd");
-    pins[20] = MakePin(45, 2+11, 0,   0x00, 0,  GND, "gnd");
-    pins[21] = MakePin(45, 2+12, 0,   0x00, 0,  GND, "gnd");
-    pins[22] = MakePin(45, 2+13, 0,   0x00, 0,  GND, "gnd");
-    pins[23] = MakePin(45, 2+14, 0,   0x00, 0,  GND, "gnd");
-    pins[24] = MakePin(45, 2+15, 0,   0x00, 0,  GND, "gnd");
-    pins[25] = MakePin(45, 2+16, 0,   0x00, 0,  GND, "gnd");
+    G_pins[ 1] = MakePin(5,  2+5,  2,   0x01, 1,  OUT, "-strobe");
+    G_pins[ 2] = MakePin(5,  2+6,  0,   0x01, 0,  OUT, "+data0");
+    G_pins[ 3] = MakePin(5,  2+7,  0,   0x02, 0,  OUT, "+data1");
+    G_pins[ 4] = MakePin(5,  2+8,  0,   0x04, 0,  OUT, "+data2");
+    G_pins[ 5] = MakePin(5,  2+9,  0,   0x08, 0,  OUT, "+data3");
+    G_pins[ 6] = MakePin(5,  2+10, 0,   0x10, 0,  OUT, "+data4");
+    G_pins[ 7] = MakePin(5,  2+11, 0,   0x20, 0,  OUT, "+data5");
+    G_pins[ 8] = MakePin(5,  2+12, 0,   0x40, 0,  OUT, "+data6");
+    G_pins[ 9] = MakePin(5,  2+13, 0,   0x80, 0,  OUT, "+data7");
+    G_pins[10] = MakePin(5,  2+14, 1,   0x40, 1,  IN,  "-ack");
+    G_pins[11] = MakePin(5,  2+15, 1,   0x80, 1,  IN,  "+busy");
+    G_pins[12] = MakePin(5,  2+16, 1,   0x20, 0,  IN,  "+outpap");
+    G_pins[13] = MakePin(5,  2+17, 1,   0x10, 0,  IN,  "+sel");
+    G_pins[14] = MakePin(45, 2+5,  2,   0x02, 1,  OUT, "-autofeed");
+    G_pins[15] = MakePin(45, 2+6,  1,   0x08, 0,  IN,  "-error");
+    G_pins[16] = MakePin(45, 2+7,  2,   0x04, 0,  OUT, "-init");
+    G_pins[17] = MakePin(45, 2+8,  2,   0x08, 1,  OUT, "-sel");
+    G_pins[18] = MakePin(45, 2+9,  0,   0x00, 0,  GND, "gnd");
+    G_pins[19] = MakePin(45, 2+10, 0,   0x00, 0,  GND, "gnd");
+    G_pins[20] = MakePin(45, 2+11, 0,   0x00, 0,  GND, "gnd");
+    G_pins[21] = MakePin(45, 2+12, 0,   0x00, 0,  GND, "gnd");
+    G_pins[22] = MakePin(45, 2+13, 0,   0x00, 0,  GND, "gnd");
+    G_pins[23] = MakePin(45, 2+14, 0,   0x00, 0,  GND, "gnd");
+    G_pins[24] = MakePin(45, 2+15, 0,   0x00, 0,  GND, "gnd");
+    G_pins[25] = MakePin(45, 2+16, 0,   0x00, 0,  GND, "gnd");
 }
 
 // SEND A TONE TO THE SPEAKER
@@ -144,17 +145,17 @@ void HelpAndExit(void)
         "parallel - monitor/control an IBM PC parallel port\n"
 	"    (C) Copyright Greg Ercolano 1988, 2007.\n"
 	"    (C) Copyright Seriss Corporation 2008, 2020.\n"
-	"    Available under GPL2. http://github.com/erco77/parallel\n"
+	"    Available under GPL3. http://github.com/erco77/parallel-dos\n"
         "\n"
         "USAGE\n"
 	"    parallel [-h] [port|lpt#]\n"
 	"\n"
         "EXAMPLES\n"
-	"    parallel     - monitor LPT1 (default)\n"
-	"    parallel 1   - monitor LPT1\n"
-	"    parallel 2   - monitor LPT2\n"
-	"    parallel 3   - monitor LPT3\n"
-	"    parallel 378 - monitor parallel port 0378h\n"
+	"    parallel         - monitor LPT1 (default)\n"
+	"    parallel 1       - monitor LPT1\n"
+	"    parallel 2       - monitor LPT2\n"
+	"    parallel 3       - monitor LPT3\n"
+	"    parallel 378     - monitor parallel port at base address 0378h\n"
 	"    parallel -h[elp] - this help screen\n"
 	"\n"
 	"KEYS\n"
@@ -178,10 +179,10 @@ int LPT2Port(int lpt)
 int main(int argc, char **argv)
 {
     int portbase = 0;
-    int edit   = 1;	// pin# currently being edited
-    int done   = 0;	// set to 1 when user hits ESC
-    int redraw = 1;	// set to 1 to do a full redraw
-    int lpt    = 1;
+    int edit     = 1;	// pin# currently being edited
+    int done     = 0;	// set to 1 when user hits ESC
+    int redraw   = 1;	// set to 1 to do a full redraw
+    int lpt      = 1;
     ulong lasttime = time(NULL);
 
     // USE LPT1 BY DEFAULT
@@ -231,7 +232,7 @@ int main(int argc, char **argv)
     //
     BreakHandler();
 
-    // INITIALIZE pins[] ARRAY
+    // INITIALIZE G_pins[] ARRAY
     Init();
 
     // TOP OF SCREEN
@@ -258,11 +259,11 @@ int main(int argc, char **argv)
 	static int first = 1;
 
 	// KEEP CURSOR POSITIONED AT EDIT CURSOR
-	printf("\033[%d;%dH", pins[edit]->y, pins[edit]->x-1);
+	printf("\033[%d;%dH", G_pins[edit]->y, G_pins[edit]->x-1);
 
 	for (pin=1; pin<=25; pin++) {
-	    p = pins[pin];
-	    port = portbase + p->port;
+	    p     = G_pins[pin];
+	    port  = portbase + p->port;
 	    state = inp(port) & p->mask;
 
 	    // REDRAW LINE ONLY IF STATE CHANGED
@@ -336,7 +337,7 @@ int main(int argc, char **argv)
 	        case '\r':
 	        case '\n': {
 		    // CHANGE VALUE OF PORT
-		    p = pins[edit];			// pin being edited
+		    p = G_pins[edit];			// pin being edited
 		    if ( p->dir == IN ) break;		// early exit if input
 		    port = portbase + p->port;		// port
 		    state = inp(port);			// get current value
@@ -355,7 +356,7 @@ int main(int argc, char **argv)
 			    redraw = 1;
 			    break;
 		        case 0x50: 	/* DOWN ARROW */
-			    if (++edit > 17) edit = 1;	// pins past 17 are gnd
+			    if (++edit > 17) edit = 1;	// G_pins past 17 are gnd
 			    redraw = 1;
 			    break;
 		    }
