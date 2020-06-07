@@ -4,6 +4,7 @@
 #include <time.h>
 #include <dos.h>
 #include <conio.h>
+
 #undef outp		// Turbo C 3.0 needs this
 
 //
@@ -11,7 +12,7 @@
 //
 // (C) Copyright Greg Ercolano 1988, 2007.
 // (C) Copyright Seriss Corporation 2008, 2020.
-// Available under GPL2. http://github.com/erco77/parallel\n"
+// Available under GPL2. http://github.com/erco77/parallel-dos\n"
 //
 // 80 //////////////////////////////////////////////////////////////////////////
 //

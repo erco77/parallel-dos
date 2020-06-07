@@ -1,5 +1,5 @@
 ##
-## PARALLEL MAKEFILE FOR TURBO C 3.0
+## PARALLEL.C - MAKEFILE FOR TURBO C 3.0
 ##
 # TCC 3.0 Compiler flags
 # ----------------------
