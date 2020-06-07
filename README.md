@@ -1,4 +1,5 @@
 # parallel-dos
+![screenshot](https://github.com/erco77/parallel-dos/blob/master/parallel-screenshot.jpg)
 
 Builds in Turbo C 3.0; see Makefile
 
