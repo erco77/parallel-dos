@@ -1,4 +1,5 @@
 # parallel-dos
+![screenshot](https://github.com/erco77/parallel-dos/blob/master/parallel-screenshot.jpg)
 
 Builds in Turbo C 3.0; see Makefile
 
@@ -6,7 +7,7 @@ This program monitors and controls the bits on any parallel port. This does NOT 
 
 To run this program, just invoke 'parallel' from the DOS prompt. The default will be to monitor LPT1.
 You can specify '1' or '2' as an optional argument on the command line to specify which LPT port to monitor.
-Or you can specify the full base port# (e.g. 0378).
+Or you can specify the full base port# (e.g. 0378). 'parallel -help' to see a help screen.
 
 Lines shown in BOLD are "input" signals. The rest are either "outputs" or "ground" pins.
 
