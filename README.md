@@ -24,3 +24,12 @@ You can use the UP/DOWN arrow keys to move the inverse "cursor" (the white block
 All the input pins (10,11,12,13 and 15) each have scrolling 'oscilloscope' that runs along the bottom of the screen to show the set/clear state. The scrolling aspect allows one to more easily oscillations on the input.
 
 Hit ESC to exit this program.
+
+REQUIREMENTS
+------------
+"ANSI.SYS" needs to be installed for screen positioning and colors to work, or you'll see control characters.
+In your C:\CONFIG.SYS file, make sure you have:
+
+    DEVICE=C:\DOS\ANSI.SYS
+
+..adjust the path to ANSI.SYS based on where your DOS directory is installed; ANSI.SYS comes with DOS.
